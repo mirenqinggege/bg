@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fumei.bg.mapper.FileMapper">
+  <resultMap id="BaseResultMap" type="com.fumei.bg.domain.File">
+    <id column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content_type" jdbcType="VARCHAR" property="contentType" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    file_id, original_name, `name`, content_type, file_type, `path`, file_size, create_time, 
+    update_time, is_delete
+  </sql>
+  <select id="selectByExample" parameterType="com.fumei.bg.domain.FileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from file
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from file
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fumei.bg.domain.FileExample">
+    delete from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.File" useGeneratedKeys="true">
+    insert into file (original_name, `name`, content_type, 
+      file_type, `path`, file_size, 
+      create_time, update_time, is_delete
+      )
+    values (#{originalName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.File" useGeneratedKeys="true">
+    insert into file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="contentType != null">
+        content_type,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="path != null">
+        `path`,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fumei.bg.domain.FileExample" resultType="java.lang.Long">
+    select count(*) from file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update file
+    <set>
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=BIGINT},
+      </if>
+      <if test="record.originalName != null">
+        original_name = #{record.originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contentType != null">
+        content_type = #{record.contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null">
+        `path` = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileSize != null">
+        file_size = #{record.fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update file
+    set file_id = #{record.fileId,jdbcType=BIGINT},
+      original_name = #{record.originalName,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      content_type = #{record.contentType,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
+      `path` = #{record.path,jdbcType=VARCHAR},
+      file_size = #{record.fileSize,jdbcType=DOUBLE},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{record.isDelete,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.File">
+    update file
+    <set>
+      <if test="originalName != null">
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null">
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.File">
+    update file
+    set original_name = #{originalName,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=VARCHAR},
+      `path` = #{path,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      is_delete = #{isDelete,jdbcType=INTEGER}
+    where file_id = #{fileId,jdbcType=BIGINT}
+  </update>
+</mapper>

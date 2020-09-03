@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://localhost:3307/bg?serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8081
+
+mybatis:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.fumei.bg.domain
+
+logging:
+  config: classpath:logback-boot.xml
+
