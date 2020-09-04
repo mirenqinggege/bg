@@ -27,7 +27,11 @@ public class AjaxResult {
             USER_LOGIN_ERROR_CODE = "A0200",
             USER_LOGIN_ERROR_MESSAGE = "账号异常",
             USERNAME_NOT_EXIST_CODE = "A0201",
-            USERNAME_NOT_EXIST_MESSAGE = "该用户不存在";
+            USERNAME_NOT_EXIST_MESSAGE = "该用户不存在",
+            USER_NUMBER_EXITS_CODE = "A0112",
+            USER_NUMBER_EXITS_MESSAGE = "手机号存在",
+            USER_EMAIL_EXITS_CODE = "A0114",
+            USER_EMAIL_EXITS_MESSAGE = "邮箱已存在";
 
 
     private String code;

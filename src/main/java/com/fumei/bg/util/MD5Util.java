@@ -1,5 +1,6 @@
 package com.fumei.bg.util;
 
+import com.fumei.bg.domain.User;
 import org.apache.tomcat.util.security.MD5Encoder;
 
 import java.io.File;
@@ -77,5 +78,23 @@ public class MD5Util {
         } else {
             return null;
         }
+    }
+
+    public static void passwordEncoding(User user) {
+        String loginName = user.getLoginName(), password = user.getPassword(), salt = getRandomChar(4);
+        user.setSalt(salt);
+        user.setPassword(MD5Encoding(loginName + password + salt));
+    }
+
+    public static char getRandomChar() {
+        return (char) (0x4e00 + (int) (Math.random() * (0x9fa5 - 0x4e00 + 1)));
+    }
+
+    public static String getRandomChar(int count) {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i < count;i++){
+            sb.append(getRandomChar());
+        }
+        return sb.toString();
     }
 }
