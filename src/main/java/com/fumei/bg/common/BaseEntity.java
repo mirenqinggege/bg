@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * @author zkh
  */
-public class BaseEntity extends HashMap<Object, Object> {
+public class BaseEntity {
     private Date createTime;
     private Date updateTime;
     private HashMap<String, Object> params;

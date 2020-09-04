@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="com.fumei.bg.domain.File">
     <id column="file_id" jdbcType="BIGINT" property="fileId" />
     <result column="original_name" jdbcType="VARCHAR" property="originalName" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="name" jdbcType="CHAR" property="name" />
     <result column="content_type" jdbcType="VARCHAR" property="contentType" />
     <result column="file_type" jdbcType="VARCHAR" property="fileType" />
     <result column="path" jdbcType="VARCHAR" property="path" />
-    <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+    <result column="file_size" jdbcType="VARCHAR" property="fileSize" />
+    <result column="MD5" jdbcType="VARCHAR" property="md5" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    file_id, original_name, `name`, content_type, file_type, `path`, file_size, create_time, 
-    update_time, is_delete
+   file_id, original_name, `name`, content_type, file_type, `path`, file_size, MD5,
+    create_time, update_time, is_delete
   </sql>
   <select id="selectByExample" parameterType="com.fumei.bg.domain.FileExample" resultMap="BaseResultMap">
     select
@@ -108,12 +109,12 @@
   <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.File" useGeneratedKeys="true">
     insert into file (original_name, `name`, content_type, 
       file_type, `path`, file_size, 
-      create_time, update_time, is_delete
-      )
-    values (#{originalName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
-      #{fileType,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER}
-      )
+      MD5, create_time, update_time, 
+      is_delete)
+    values (#{originalName,jdbcType=VARCHAR}, #{name,jdbcType=CHAR}, #{contentType,jdbcType=VARCHAR},
+      #{fileType,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{fileSize,jdbcType=VARCHAR}, 
+      #{md5,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{isDelete,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.File" useGeneratedKeys="true">
     insert into file
@@ -136,6 +137,9 @@
       <if test="fileSize != null">
         file_size,
       </if>
+      <if test="md5 != null">
+        MD5,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -151,7 +155,7 @@
         #{originalName,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+        #{name,jdbcType=CHAR},
       </if>
       <if test="contentType != null">
         #{contentType,jdbcType=VARCHAR},
@@ -163,7 +167,10 @@
         #{path,jdbcType=VARCHAR},
       </if>
       <if test="fileSize != null">
-        #{fileSize,jdbcType=DOUBLE},
+        #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        #{md5,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -192,7 +199,7 @@
         original_name = #{record.originalName,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
-        `name` = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=CHAR},
       </if>
       <if test="record.contentType != null">
         content_type = #{record.contentType,jdbcType=VARCHAR},
@@ -204,7 +211,10 @@
         `path` = #{record.path,jdbcType=VARCHAR},
       </if>
       <if test="record.fileSize != null">
-        file_size = #{record.fileSize,jdbcType=DOUBLE},
+        file_size = #{record.fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.md5 != null">
+        MD5 = #{record.md5,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -224,11 +234,12 @@
     update file
     set file_id = #{record.fileId,jdbcType=BIGINT},
       original_name = #{record.originalName,jdbcType=VARCHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=CHAR},
       content_type = #{record.contentType,jdbcType=VARCHAR},
       file_type = #{record.fileType,jdbcType=VARCHAR},
       `path` = #{record.path,jdbcType=VARCHAR},
-      file_size = #{record.fileSize,jdbcType=DOUBLE},
+      file_size = #{record.fileSize,jdbcType=VARCHAR},
+      MD5 = #{record.md5,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       is_delete = #{record.isDelete,jdbcType=INTEGER}
@@ -243,7 +254,7 @@
         original_name = #{originalName,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=CHAR},
       </if>
       <if test="contentType != null">
         content_type = #{contentType,jdbcType=VARCHAR},
@@ -255,7 +266,10 @@
         `path` = #{path,jdbcType=VARCHAR},
       </if>
       <if test="fileSize != null">
-        file_size = #{fileSize,jdbcType=DOUBLE},
+        file_size = #{fileSize,jdbcType=VARCHAR},
+      </if>
+      <if test="md5 != null">
+        MD5 = #{md5,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -272,11 +286,12 @@
   <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.File">
     update file
     set original_name = #{originalName,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=CHAR},
       content_type = #{contentType,jdbcType=VARCHAR},
       file_type = #{fileType,jdbcType=VARCHAR},
       `path` = #{path,jdbcType=VARCHAR},
-      file_size = #{fileSize,jdbcType=DOUBLE},
+      file_size = #{fileSize,jdbcType=VARCHAR},
+      MD5 = #{md5,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       is_delete = #{isDelete,jdbcType=INTEGER}

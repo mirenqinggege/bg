@@ -1,4 +1,4 @@
-package com.fumei.bg;
+package com.fumei.bg.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

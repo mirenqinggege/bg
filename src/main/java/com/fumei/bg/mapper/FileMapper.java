@@ -3,6 +3,7 @@ package com.fumei.bg.mapper;
 import com.fumei.bg.domain.File;
 import com.fumei.bg.domain.FileExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 /**

@@ -10,7 +10,7 @@ public class BaseController {
      * 返回成功信息
      * @return ajax body
      */
-    static AjaxResult success() {
+    protected static AjaxResult success() {
         return success(AjaxResult.REQUEST_SUCCESS_MESSAGE,null);
     }
 
@@ -19,7 +19,7 @@ public class BaseController {
      * @param message 成功信息
      * @return ajax body
      */
-    static AjaxResult success(String message) {
+    protected static AjaxResult success(String message) {
         return success(message,null);
     }
 
@@ -29,7 +29,7 @@ public class BaseController {
      * @param data 返回数据
      * @return ajax body
      */
-    static AjaxResult success(String message, Object data) {
+    protected static AjaxResult success(String message, Object data) {
         return new AjaxResult(AjaxResult.REQUEST_SUCCESS_CODE, message, data);
     }
 
@@ -39,7 +39,7 @@ public class BaseController {
      * @param message 错误信息
      * @return ajax body
      */
-    static AjaxResult error(String code, String message) {
+    protected static AjaxResult error(String code, String message) {
         return new AjaxResult(code, message);
     }
 
@@ -51,7 +51,7 @@ public class BaseController {
      * @param success 成功信息
      * @return ajax body
      */
-    static AjaxResult toAjax(int rows,String success, String errorCode, String errorMessage){
+    protected static AjaxResult toAjax(int rows,String success, String errorCode, String errorMessage){
         return rows > 0 ? success(success) : error(errorCode, errorMessage);
     }
 
@@ -61,7 +61,7 @@ public class BaseController {
      * @param rows 数据库修改行数
      * @return ajax body
      */
-    static AjaxResult toAjax(int rows){
+    protected static AjaxResult toAjax(int rows){
         return toAjax(rows,AjaxResult.REQUEST_SUCCESS_MESSAGE,AjaxResult.SERVER_ERROR_CODE,AjaxResult.SERVER_ERROR_MESSAGE);
     }
 }
