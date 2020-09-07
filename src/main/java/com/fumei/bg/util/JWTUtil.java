@@ -8,11 +8,10 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.config.Global;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -53,17 +52,15 @@ public class JWTUtil {
 
     public static boolean validateToken(HttpServletRequest request, HttpServletResponse response) {
         String header = request.getHeader(TOKEN_HEADER);
-        ServletOutputStream outputStream = null;
+        PrintWriter writer = null;
         try {
-            outputStream = response.getOutputStream();
+            writer = response.getWriter();
         } catch (IOException e) {
             e.printStackTrace();
         }
         if (header == null) {
             try {
-                outputStream.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_NOT_LOGIN_CODE, AjaxResult.USER_NOT_LOGIN_MESSAGE)).getBytes(StandardCharsets.UTF_8));
-                outputStream.flush();
-                outputStream.close();
+                writer.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_NOT_LOGIN_CODE, AjaxResult.USER_NOT_LOGIN_MESSAGE)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -74,17 +71,13 @@ public class JWTUtil {
         } catch (JWTVerificationException e) {
             if (e.getMessage().contains(TOKEN_EXPIRE)) {
                 try {
-                    outputStream.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_LOGIN_TIMEOUT_CODE, AjaxResult.USER_LOGIN_TIMEOUT_MESSAGE)).getBytes(StandardCharsets.UTF_8));
-                    outputStream.flush();
-                    outputStream.close();
+                    writer.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_LOGIN_TIMEOUT_CODE, AjaxResult.USER_LOGIN_TIMEOUT_MESSAGE)));
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             } else {
                 try {
-                    outputStream.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_TOKEN_ERROR_CODE, AjaxResult.USER_TOKEN_ERROR_MESSAGE)).getBytes(StandardCharsets.UTF_8));
-                    outputStream.flush();
-                    outputStream.close();
+                    writer.write(JsonUtil.objectToJson(new AjaxResult(AjaxResult.USER_TOKEN_ERROR_CODE, AjaxResult.USER_TOKEN_ERROR_MESSAGE)));
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

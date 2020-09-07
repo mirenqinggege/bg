@@ -18,6 +18,7 @@ public class LoginStatusValidateInterceptor implements HandlerInterceptor {
     private final static Logger log = LoggerFactory.getLogger(LoginStatusValidateInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info(request.getRequestURL().toString());
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/json");
         return JWTUtil.validateToken(request, response);

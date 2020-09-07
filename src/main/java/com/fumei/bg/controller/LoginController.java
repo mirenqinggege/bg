@@ -9,6 +9,7 @@ import com.fumei.bg.util.JWTUtil;
 import com.fumei.bg.util.MD5Util;
 import com.fumei.bg.util.RegularUtil;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class LoginController extends BaseController {
     }
 
     @PostMapping("/login")
-    public AjaxResult login(User user, HttpServletResponse response) {
+    public AjaxResult login(@RequestBody User user, HttpServletResponse response) {
         User loginUser;
         String loginName = user.getLoginName();
         if (RegularUtil.isEmail(loginName)) {
@@ -50,14 +51,15 @@ public class LoginController extends BaseController {
         user.setLoginName(loginUser.getLoginName());
         MD5Util.passwordEncoding(user);
         if (user.getPassword().equals(loginUser.getPassword())) {
-            response.addHeader(tokenHeader, JWTUtil.sign(loginUser.getUserId()));
-            return success("登陆成功", loginUser);
+            String sign = JWTUtil.sign(loginUser.getUserId());
+            response.addHeader(tokenHeader, sign);
+            return success("登陆成功", sign);
         }
         return error(AjaxResult.PASSWORD_VALIDATE_FAIL_CODE, AjaxResult.PASSWORD_VALIDATE_FAIL_MESSAGE);
     }
 
     @PostMapping("/reg")
-    public AjaxResult regUser(User user) {
+    public AjaxResult regUser(@RequestBody User user) {
         MD5Util.passwordEncoding(user);
         if (user.getNumber() != null && !userService.uniqueNumber(user)) {
             return error(AjaxResult.USER_NUMBER_EXITS_CODE, AjaxResult.USER_NUMBER_EXITS_MESSAGE);
