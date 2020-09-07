@@ -81,8 +81,10 @@ public class MD5Util {
     }
 
     public static void passwordEncoding(User user) {
-        String loginName = user.getLoginName(), password = user.getPassword(), salt = getRandomChar(4);
-        user.setSalt(salt);
+        String loginName = user.getLoginName(), password = user.getPassword(), salt = user.getSalt();
+        if(salt ==  null){
+            user.setSalt(getRandomChar(4));
+        }
         user.setPassword(MD5Encoding(loginName + password + salt));
     }
 

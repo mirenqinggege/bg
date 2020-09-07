@@ -2,13 +2,16 @@ package com.fumei.bg.controller;
 
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
+import com.fumei.bg.config.Global;
 import com.fumei.bg.domain.User;
 import com.fumei.bg.service.IUserService;
+import com.fumei.bg.util.JWTUtil;
 import com.fumei.bg.util.MD5Util;
 import com.fumei.bg.util.RegularUtil;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -17,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LoginController extends BaseController {
     private final IUserService userService;
+
+    private final String tokenHeader = Global.getConfig("Token.header");
+    private final Integer expiry = Integer.parseInt(Global.getConfig("Token.expireTime")) / 1000;
 
     public LoginController(IUserService userService) {
         this.userService = userService;
@@ -41,11 +47,13 @@ public class LoginController extends BaseController {
             return error(AjaxResult.USER_LOGIN_ERROR_CODE, AjaxResult.USER_LOGIN_ERROR_MESSAGE);
         }
         user.setSalt(loginUser.getSalt());
+        user.setLoginName(loginUser.getLoginName());
         MD5Util.passwordEncoding(user);
         if (user.getPassword().equals(loginUser.getPassword())) {
-            return success("登陆成功",loginUser);
+            response.addHeader(tokenHeader, JWTUtil.sign(loginUser.getUserId()));
+            return success("登陆成功", loginUser);
         }
-        return null;
+        return error(AjaxResult.PASSWORD_VALIDATE_FAIL_CODE, AjaxResult.PASSWORD_VALIDATE_FAIL_MESSAGE);
     }
 
     @PostMapping("/reg")
@@ -58,5 +66,11 @@ public class LoginController extends BaseController {
             return error(AjaxResult.USER_EMAIL_EXITS_CODE, AjaxResult.USER_EMAIL_EXITS_MESSAGE);
         }
         return toAjax(userService.save(user));
+    }
+
+    @PostMapping("/logout")
+    public AjaxResult logout(HttpServletResponse response, HttpServletRequest request) {
+        response.setHeader(tokenHeader, "");
+        return success("退出成功");
     }
 }

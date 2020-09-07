@@ -31,7 +31,13 @@ public class AjaxResult {
             USER_NUMBER_EXITS_CODE = "A0112",
             USER_NUMBER_EXITS_MESSAGE = "手机号存在",
             USER_EMAIL_EXITS_CODE = "A0114",
-            USER_EMAIL_EXITS_MESSAGE = "邮箱已存在";
+            USER_EMAIL_EXITS_MESSAGE = "邮箱已存在",
+            USER_LOGIN_TIMEOUT_CODE = "A0202",
+            USER_LOGIN_TIMEOUT_MESSAGE = "登陆超时，请重新登陆",
+            USER_NOT_LOGIN_CODE = "A0203",
+            USER_NOT_LOGIN_MESSAGE = "未登录，请登录",
+            USER_TOKEN_ERROR_CODE = "A0204",
+            USER_TOKEN_ERROR_MESSAGE = "用户令牌被修改，请重新登录验证";
 
 
     private String code;
