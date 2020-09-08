@@ -5,9 +5,7 @@ import com.fumei.bg.common.BaseController;
 import com.fumei.bg.config.Global;
 import com.fumei.bg.domain.User;
 import com.fumei.bg.service.IUserService;
-import com.fumei.bg.util.JWTUtil;
-import com.fumei.bg.util.MD5Util;
-import com.fumei.bg.util.RegularUtil;
+import com.fumei.bg.util.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,16 +19,26 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class LoginController extends BaseController {
     private final IUserService userService;
-
+    private final RedisCache redisCache;
     private final String tokenHeader = Global.getConfig("Token.header");
     private final Integer expiry = Integer.parseInt(Global.getConfig("Token.expireTime")) / 1000;
 
-    public LoginController(IUserService userService) {
+    public LoginController(IUserService userService, RedisCache redisCache) {
         this.userService = userService;
+        this.redisCache = redisCache;
     }
 
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody User user, HttpServletResponse response) {
+    public AjaxResult login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+        String captcha = (String) user.getParams().get("captcha");
+        String uuid = request.getHeader("uuid");
+        String captchaCache = redisCache.getCacheObject(RandomValidateCode.CAPTCHA_PREFIX + uuid);
+        if(captchaCache == null){
+            return error(AjaxResult.CAPTCHA_ERROR_CODE, "验证码失效");
+        }
+        if(captcha == null || !captcha.equals(captchaCache)){
+            return error(AjaxResult.CAPTCHA_ERROR_CODE, AjaxResult.CAPTCHA_ERROR_MESSAGE);
+        }
         User loginUser;
         String loginName = user.getLoginName();
         if (RegularUtil.isEmail(loginName)) {

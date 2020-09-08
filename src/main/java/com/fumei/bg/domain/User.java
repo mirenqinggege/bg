@@ -2,6 +2,8 @@ package com.fumei.bg.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fumei.bg.common.BaseEntity;
 import lombok.Data;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Data;
  * @author zkh
  */
 @Data
-public class User implements Serializable {
+public class User extends BaseEntity implements Serializable {
     /**
      * 用户id
      */
