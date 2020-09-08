@@ -14,6 +14,8 @@ public class AjaxResult {
             SERVER_ERROR_MESSAGE = "服务端错误",
             CLIENT_ERROR_CODE = "A0001",
             CLIENT_ERROR_MESSAGE = "客户端错误",
+            REQUEST_PARAMS_ERROR_CODE = "A0002",
+            REQUEST_PARAMS_ERROR_MESSAGE = "请求参数不匹配",
             USERNAME_VALIDATE_FAIL_CODE = "A0110",
             USERNAME_VALIDATE_FAIL_MESSAGE = "用户名验证失败",
             USERNAME_EXIST_CODE = "A0111",
