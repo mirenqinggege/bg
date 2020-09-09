@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -60,8 +61,11 @@ public class LoginController extends BaseController {
         MD5Util.passwordEncoding(user);
         if (user.getPassword().equals(loginUser.getPassword())) {
             String sign = JWTUtil.sign(loginUser.getUserId());
-            response.addHeader(tokenHeader, sign);
-            return success("登陆成功", sign);
+            Cookie cookie = new Cookie(tokenHeader, sign);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(expiry);
+            response.addCookie(cookie);
+            return success("登陆成功");
         }
         return error(AjaxResult.PASSWORD_VALIDATE_FAIL_CODE, AjaxResult.PASSWORD_VALIDATE_FAIL_MESSAGE);
     }
@@ -79,8 +83,18 @@ public class LoginController extends BaseController {
     }
 
     @PostMapping("/logout")
-    public AjaxResult logout(HttpServletResponse response, HttpServletRequest request) {
-        response.setHeader(tokenHeader, "");
+    public AjaxResult logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie(tokenHeader,"");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return success("退出成功");
+    }
+
+    @PostMapping("/checkToken")
+    public AjaxResult checkToken(HttpServletRequest request, HttpServletResponse response){
+        if (JWTUtil.validateToken(request, response)) {
+            return success("登录状态正常", true);
+        }
+        return null;
     }
 }

@@ -27,6 +27,7 @@ public class Config implements WebMvcConfigurer {
         list.add("/logout");
         list.add("/reg");
         list.add("/captcha");
+        list.add("/checkToken");
         registry.addInterceptor(loginStatusValidateInterceptor).excludePathPatterns(list);
     }
 }
