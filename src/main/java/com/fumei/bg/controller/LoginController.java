@@ -61,11 +61,7 @@ public class LoginController extends BaseController {
         MD5Util.passwordEncoding(user);
         if (user.getPassword().equals(loginUser.getPassword())) {
             String sign = JWTUtil.sign(loginUser.getUserId());
-            Cookie cookie = new Cookie(tokenHeader, sign);
-            cookie.setHttpOnly(true);
-            cookie.setMaxAge(expiry);
-            response.addCookie(cookie);
-            return success("登陆成功");
+            return success("登陆成功", sign);
         }
         return error(AjaxResult.PASSWORD_VALIDATE_FAIL_CODE, AjaxResult.PASSWORD_VALIDATE_FAIL_MESSAGE);
     }
@@ -92,7 +88,7 @@ public class LoginController extends BaseController {
 
     @PostMapping("/checkToken")
     public AjaxResult checkToken(HttpServletRequest request, HttpServletResponse response){
-        if (JWTUtil.validateToken(request, response)) {
+        if (JWTUtil.validateLogin(request, response)) {
             return success("登录状态正常", true);
         }
         return null;

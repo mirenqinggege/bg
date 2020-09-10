@@ -17,7 +17,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
-  config: classpath:logback-boot.xml
+  config: classpath:logback.xml
 
 
 profile:
@@ -27,3 +27,6 @@ Token:
   expireTime: 1800000
   secret: zkfm
   header: Authorization
+
+Banner:
+  maxBannerCount: 5

@@ -59,12 +59,18 @@ public class JWTUtil {
     }
 
     public static String getToken(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
+        /*Cookie[] cookies = request.getCookies();
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(TOKEN_HEADER)) {
                 return cookie.getValue();
             }
         }
-        return null;
+        return null;*/
+        return request.getHeader(TOKEN_HEADER);
+    }
+
+    public static boolean validateLogin(HttpServletRequest request, HttpServletResponse response){
+        Long parse = parse(request, response);
+        return parse != null;
     }
 }

@@ -19,9 +19,7 @@ public class LoginStatusValidateInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info(request.getRequestURL().toString());
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/json");
-        return JWTUtil.validateToken(request, response);
+        return JWTUtil.validateLogin(request, response);
     }
 
     @Override
