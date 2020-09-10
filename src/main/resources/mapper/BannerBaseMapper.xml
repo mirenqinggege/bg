@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fumei.bg.mapper.BannerBaseMapper">
+    <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.BannerBase">
+        <id column="banner_id" property="bannerId" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result property="fileId" column="file_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="bannerSrc" column="banner_src" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="content" column="content" jdbcType="LONGVARCHAR" javaType="java.lang.String"/>
+        <result property="use" column="is_use" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <result property="title" column="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="titleSm" column="title_sm" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </resultMap>
+    <sql id="selectVo">
+        select b.banner_id, title, title_sm, b.file_id, f.path banner_src, is_use, b.create_time, b.update_time
+        from banner b
+        left join file f on b.file_id = f.file_id and f.is_delete = 0
+    </sql>
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BannerBaseResult">
+        <include refid="selectVo"/>
+        <where>
+            banner_id = #{bannerId}
+        </where>
+    </select>
+
+    <select id="selectByUse" resultMap="BannerBaseResult">
+        <include refid="selectVo"/>
+        <where>
+            is_use = 1
+        </where>
+        order by create_time desc
+    </select>
+
+    <insert id="insert" parameterType="com.fumei.bg.domain.BannerBase" keyColumn="banner_id" keyProperty="bannerId" useGeneratedKeys="true">
+        insert into banner(banner_id, title, title_sm, file_id, is_use, create_time, update_time)
+        values(#{bannerId}, #{title}, #{titleSm}, #{fileId}, #{use}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateById" parameterType="com.fumei.bg.domain.BannerBase">
+        update banner b set
+        b.title = #{title}, b.title_sm = #{titleSm}, b.file_id = #{fileId}, b.is_use = #{use}, b.create_time = #{createTime}, b.update_time = #{updateTime}
+        where b.banner_id = #{bannerId}
+    </update>
+</mapper>
