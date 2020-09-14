@@ -1,4 +1,4 @@
-package com.fumei.bg.domain;
+package com.fumei.bg.domain.web;
 
 import com.fumei.bg.common.BaseEntity;
 import lombok.Data;

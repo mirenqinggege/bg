@@ -1,6 +1,6 @@
 package com.fumei.bg.service;
 
-import com.fumei.bg.domain.BannerBase;
+import com.fumei.bg.domain.web.BannerBase;
 
 import java.util.List;
 

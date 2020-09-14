@@ -22,6 +22,8 @@ logging:
 
 profile:
   path: E:/profiles/static
+#  path: /home/static
+
 
 Token:
   expireTime: 1800000

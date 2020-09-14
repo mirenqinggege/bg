@@ -1,11 +1,10 @@
 package com.fumei.bg.service.impl;
 
 import com.fumei.bg.config.Global;
-import com.fumei.bg.domain.BannerBase;
+import com.fumei.bg.domain.web.BannerBase;
 import com.fumei.bg.mapper.BannerBaseMapper;
 import com.fumei.bg.service.IBannerBaseService;
 import com.fumei.bg.util.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package com.fumei.bg.domain;
+package com.fumei.bg.domain.web;
 
+import com.fumei.bg.domain.web.ElementBase;
 import lombok.Data;
 
 /**

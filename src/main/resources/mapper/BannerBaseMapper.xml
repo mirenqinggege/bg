@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fumei.bg.mapper.BannerBaseMapper">
-    <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.BannerBase">
+    <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.web.BannerBase">
         <id column="banner_id" property="bannerId" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result property="fileId" column="file_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result property="bannerSrc" column="banner_src" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -33,12 +33,12 @@
         order by create_time desc
     </select>
 
-    <insert id="insert" parameterType="com.fumei.bg.domain.BannerBase" keyColumn="banner_id" keyProperty="bannerId" useGeneratedKeys="true">
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.BannerBase" keyColumn="banner_id" keyProperty="bannerId" useGeneratedKeys="true">
         insert into banner(banner_id, title, title_sm, file_id, is_use, create_time, update_time)
         values(#{bannerId}, #{title}, #{titleSm}, #{fileId}, #{use}, #{createTime}, #{updateTime})
     </insert>
 
-    <update id="updateById" parameterType="com.fumei.bg.domain.BannerBase">
+    <update id="updateById" parameterType="com.fumei.bg.domain.web.BannerBase">
         update banner b set
         b.title = #{title}, b.title_sm = #{titleSm}, b.file_id = #{fileId}, b.is_use = #{use}, b.create_time = #{createTime}, b.update_time = #{updateTime}
         where b.banner_id = #{bannerId}

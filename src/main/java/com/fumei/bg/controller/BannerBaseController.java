@@ -2,7 +2,7 @@ package com.fumei.bg.controller;
 
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
-import com.fumei.bg.domain.BannerBase;
+import com.fumei.bg.domain.web.BannerBase;
 import com.fumei.bg.domain.File;
 import com.fumei.bg.exception.FileException;
 import com.fumei.bg.service.IBannerBaseService;
