@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fumei.bg.mapper.SysMenuMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.SysMenu">
+        <id jdbcType="BIGINT" javaType="java.lang.Long" column="menu_id" property="menuId"/>
+        <result jdbcType="BIGINT" javaType="java.lang.Long" column="parent_id" property="parentId"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="parent_ids" property="parentIds"/>
+        <result jdbcType="INTEGER" javaType="java.lang.Integer" column="order_num" property="orderNum"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="name" property="name"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="link" property="link"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="target" property="target"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="icon" property="icon"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="status" property="status"/>
+        <result jdbcType="TIMESTAMP" javaType="java.util.Date" column="create_time" property="createTime"/>
+        <result jdbcType="TIMESTAMP" javaType="java.util.Date" column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectVo">
+        select menu_id, parent_id, parent_ids, order_num, name, icon, href, target, create_time, update_time from sys_menu sm
+    </sql>
+
+    <select id="selectMenuByParentIdIsNull" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        <where>
+            parent_id is null
+        </where>
+        order by order_num
+    </select>
+    <select id="selectMenuByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        <include refid="selectVo"/>
+        <where>
+            parent_id = #{parentId}
+        </where>
+        order by order_num
+    </select>
+
+</mapper>
