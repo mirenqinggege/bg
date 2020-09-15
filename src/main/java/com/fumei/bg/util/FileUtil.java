@@ -1,5 +1,6 @@
 package com.fumei.bg.util;
 
+import com.fumei.bg.domain.SysFile;
 import com.fumei.bg.exception.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class FileUtil {
         return new DecimalFormat("#.00").format(result) + " " + unit;
     }
 
-    public static File createNewFile(String basePath, String originalFilename, com.fumei.bg.domain.File file2) throws FileException {
+    public static File createNewFile(String basePath, String originalFilename, SysFile sysFile2) throws FileException {
         String dateFilePath = DateUtils.getDateFilePath();
         String path = basePath + "/" + dateFilePath, fileName = FileUtil.fileNameEncoding(originalFilename);
         File file = new File(path), file1 = new File(path + "/" + fileName);
@@ -58,7 +59,7 @@ public class FileUtil {
                 }
             }
         }
-        file2.setPath("/static/" + dateFilePath + "/" + fileName);
+        sysFile2.setPath("/static/" + dateFilePath + "/" + fileName);
         return file1;
     }
 

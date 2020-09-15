@@ -1,12 +1,10 @@
 package com.fumei.bg.util;
 
-import com.fumei.bg.domain.User;
-import org.apache.tomcat.util.security.MD5Encoder;
+import com.fumei.bg.domain.SysUser;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -80,12 +78,12 @@ public class MD5Util {
         }
     }
 
-    public static void passwordEncoding(User user) {
-        String loginName = user.getLoginName(), password = user.getPassword(), salt = user.getSalt();
+    public static void passwordEncoding(SysUser sysUser) {
+        String loginName = sysUser.getLoginName(), password = sysUser.getPassword(), salt = sysUser.getSalt();
         if(salt ==  null){
-            user.setSalt(getRandomChar(4));
+            sysUser.setSalt(getRandomChar(4));
         }
-        user.setPassword(MD5Encoding(loginName + password + salt));
+        sysUser.setPassword(MD5Encoding(loginName + password + salt));
     }
 
     public static char getRandomChar() {

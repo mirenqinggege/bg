@@ -3,7 +3,7 @@ package com.fumei.bg.controller;
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
 import com.fumei.bg.config.Global;
-import com.fumei.bg.domain.User;
+import com.fumei.bg.domain.SysUser;
 import com.fumei.bg.service.IUserService;
 import com.fumei.bg.util.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +30,8 @@ public class LoginController extends BaseController {
     }
 
     @PostMapping("/login")
-    public AjaxResult login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
-        String captcha = (String) user.getParams().get("captcha");
+    public AjaxResult login(@RequestBody SysUser sysUser, HttpServletRequest request, HttpServletResponse response) {
+        String captcha = (String) sysUser.getParams().get("captcha");
         String uuid = request.getHeader("uuid");
         String captchaCache = redisCache.getCacheObject(RandomValidateCode.CAPTCHA_PREFIX + uuid);
         if(captchaCache == null){
@@ -40,42 +40,42 @@ public class LoginController extends BaseController {
         if(captcha == null || !captcha.equals(captchaCache)){
             return error(AjaxResult.CAPTCHA_ERROR_CODE, AjaxResult.CAPTCHA_ERROR_MESSAGE);
         }
-        User loginUser;
-        String loginName = user.getLoginName();
+        SysUser loginSysUser;
+        String loginName = sysUser.getLoginName();
         if (RegularUtil.isEmail(loginName)) {
-            loginUser = userService.getUserByEmail(loginName);
+            loginSysUser = userService.getUserByEmail(loginName);
         } else if (RegularUtil.isPhoneNumber(loginName)) {
-            loginUser = userService.getUserByNumber(loginName);
+            loginSysUser = userService.getUserByNumber(loginName);
         } else {
-            loginUser = userService.getUserByLoginName(loginName);
+            loginSysUser = userService.getUserByLoginName(loginName);
         }
 
-        if (loginUser == null) {
+        if (loginSysUser == null) {
             return error(AjaxResult.USERNAME_NOT_EXIST_CODE, AjaxResult.USERNAME_NOT_EXIST_MESSAGE);
         }
-        if (loginUser.getStatus() != 0L) {
+        if (loginSysUser.getStatus() != 0L) {
             return error(AjaxResult.USER_LOGIN_ERROR_CODE, AjaxResult.USER_LOGIN_ERROR_MESSAGE);
         }
-        user.setSalt(loginUser.getSalt());
-        user.setLoginName(loginUser.getLoginName());
-        MD5Util.passwordEncoding(user);
-        if (user.getPassword().equals(loginUser.getPassword())) {
-            String sign = JWTUtil.sign(loginUser.getUserId());
+        sysUser.setSalt(loginSysUser.getSalt());
+        sysUser.setLoginName(loginSysUser.getLoginName());
+        MD5Util.passwordEncoding(sysUser);
+        if (sysUser.getPassword().equals(loginSysUser.getPassword())) {
+            String sign = JWTUtil.sign(loginSysUser.getUserId());
             return success("登陆成功", sign);
         }
         return error(AjaxResult.PASSWORD_VALIDATE_FAIL_CODE, AjaxResult.PASSWORD_VALIDATE_FAIL_MESSAGE);
     }
 
     @PostMapping("/reg")
-    public AjaxResult regUser(@RequestBody User user) {
-        MD5Util.passwordEncoding(user);
-        if (user.getNumber() != null && !userService.uniqueNumber(user)) {
+    public AjaxResult regUser(@RequestBody SysUser sysUser) {
+        MD5Util.passwordEncoding(sysUser);
+        if (sysUser.getNumber() != null && !userService.uniqueNumber(sysUser)) {
             return error(AjaxResult.USER_NUMBER_EXITS_CODE, AjaxResult.USER_NUMBER_EXITS_MESSAGE);
         }
-        if (user.geteMail() != null && !userService.uniqueEmail(user)) {
+        if (sysUser.geteMail() != null && !userService.uniqueEmail(sysUser)) {
             return error(AjaxResult.USER_EMAIL_EXITS_CODE, AjaxResult.USER_EMAIL_EXITS_MESSAGE);
         }
-        return toAjax(userService.save(user));
+        return toAjax(userService.save(sysUser));
     }
 
     @PostMapping("/logout")

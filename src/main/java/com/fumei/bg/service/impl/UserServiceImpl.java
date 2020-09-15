@@ -1,11 +1,10 @@
 package com.fumei.bg.service.impl;
 
-import com.fumei.bg.domain.User;
-import com.fumei.bg.domain.UserExample;
-import com.fumei.bg.mapper.UserMapper;
+import com.fumei.bg.domain.SysUser;
+import com.fumei.bg.domain.SysUserExample;
+import com.fumei.bg.mapper.SysUserMapper;
 import com.fumei.bg.service.IUserService;
 import com.fumei.bg.util.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,31 +14,31 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements IUserService {
-    public final UserMapper mapper;
+    public final SysUserMapper mapper;
 
-    public UserServiceImpl(UserMapper mapper) {
+    public UserServiceImpl(SysUserMapper mapper) {
         this.mapper = mapper;
     }
 
     @Override
-    public boolean uniqueNumber(User user) {
-        UserExample ue = new UserExample();
-        ue.createCriteria().andNumberEqualTo(user.getNumber());
+    public boolean uniqueNumber(SysUser sysUser) {
+        SysUserExample ue = new SysUserExample();
+        ue.createCriteria().andNumberEqualTo(sysUser.getNumber());
         return mapper.countByExample(ue) == 0L;
     }
 
     @Override
-    public boolean uniqueEmail(User user) {
-        UserExample ue = new UserExample();
-        ue.createCriteria().andEMailEqualTo(user.geteMail());
+    public boolean uniqueEmail(SysUser sysUser) {
+        SysUserExample ue = new SysUserExample();
+        ue.createCriteria().andEMailEqualTo(sysUser.geteMail());
         return mapper.countByExample(ue) == 0L;
     }
 
     @Override
-    public int save(User user) {
-        user.setCreateTime(DateUtils.currentTime());
-        user.setStatus(0);
-        return mapper.insert(user);
+    public int save(SysUser sysUser) {
+        sysUser.setCreateTime(DateUtils.currentTime());
+        sysUser.setStatus(0);
+        return mapper.insert(sysUser);
     }
 
     /**
@@ -49,11 +48,11 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象
      */
     @Override
-    public User getUserByLoginName(String loginName) {
-        UserExample ue = new UserExample();
+    public SysUser getUserByLoginName(String loginName) {
+        SysUserExample ue = new SysUserExample();
         ue.createCriteria().andLoginNameEqualTo(loginName);
-        List<User> users = mapper.selectByExample(ue);
-        return users.isEmpty() ? null : users.get(0);
+        List<SysUser> sysUsers = mapper.selectByExample(ue);
+        return sysUsers.isEmpty() ? null : sysUsers.get(0);
     }
 
     /**
@@ -63,11 +62,11 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象
      */
     @Override
-    public User getUserByEmail(String eMail) {
-        UserExample ue = new UserExample();
+    public SysUser getUserByEmail(String eMail) {
+        SysUserExample ue = new SysUserExample();
         ue.createCriteria().andEMailEqualTo(eMail);
-        List<User> users = mapper.selectByExample(ue);
-        return users.isEmpty() ? null : users.get(0);
+        List<SysUser> sysUsers = mapper.selectByExample(ue);
+        return sysUsers.isEmpty() ? null : sysUsers.get(0);
     }
 
     /**
@@ -77,10 +76,10 @@ public class UserServiceImpl implements IUserService {
      * @return 用户对象
      */
     @Override
-    public User getUserByNumber(String number) {
-        UserExample ue = new UserExample();
+    public SysUser getUserByNumber(String number) {
+        SysUserExample ue = new SysUserExample();
         ue.createCriteria().andNumberEqualTo(number);
-        List<User> users = mapper.selectByExample(ue);
-        return users.isEmpty() ? null : users.get(0);
+        List<SysUser> sysUsers = mapper.selectByExample(ue);
+        return sysUsers.isEmpty() ? null : sysUsers.get(0);
     }
 }

@@ -11,7 +11,7 @@ import lombok.Data;
  * @author zkh
  */
 @Data
-public class User extends BaseEntity implements Serializable {
+public class SysUser extends BaseEntity implements Serializable {
     /**
      * 用户id
      */
@@ -93,7 +93,7 @@ public class User extends BaseEntity implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        User other = (User) that;
+        SysUser other = (SysUser) that;
         return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
             && (this.getSex() == null ? other.getSex() == null : this.getSex().equals(other.getSex()))

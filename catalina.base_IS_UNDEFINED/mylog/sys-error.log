@@ -1,5 +1,5 @@
-2020-09-14 16:00:38,139 ERROR (DruidConfig.java:53)- Access denied for user 'root'@'localhost' (using password: YES)
-java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+2020-09-14 16:00:38,139 ERROR (DruidConfig.java:53)- Access denied for sysUser 'root'@'localhost' (using password: YES)
+java.sql.SQLException: Access denied for sysUser 'root'@'localhost' (using password: YES)
 	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:965)
 	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3978)
 	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3914)

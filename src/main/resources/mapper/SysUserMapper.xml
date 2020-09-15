@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fumei.bg.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.fumei.bg.domain.User">
+<mapper namespace="com.fumei.bg.mapper.SysUserMapper">
+  <resultMap id="BaseResultMap" type="com.fumei.bg.domain.SysUser">
     <id column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="sex" jdbcType="CHAR" property="sex" />
@@ -77,13 +77,13 @@
     user_id, nickname, sex, portrait, login_name, e_mail, `number`, `password`, salt, 
     `status`, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.fumei.bg.domain.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fumei.bg.domain.SysUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from sysUser
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,21 +94,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
+    from sysUser
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from user
+    delete from sysUser
     where user_id = #{userId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.fumei.bg.domain.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="com.fumei.bg.domain.SysUserExample">
+    delete from sysUser
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.fumei.bg.domain.User" useGeneratedKeys="true">
-    insert into user (nickname, sex, portrait, 
+  <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.fumei.bg.domain.SysUser" useGeneratedKeys="true">
+    insert into sysUser (nickname, sex, portrait,
       login_name, e_mail, `number`, 
       `password`, salt, `status`, 
       create_time, update_time)
@@ -117,8 +117,8 @@
       #{password,jdbcType=VARCHAR}, #{salt,jdbcType=CHAR}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.fumei.bg.domain.User" useGeneratedKeys="true">
-    insert into user
+  <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.fumei.bg.domain.SysUser" useGeneratedKeys="true">
+    insert into sysUser
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="nickname != null">
         nickname,
@@ -190,14 +190,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.fumei.bg.domain.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="com.fumei.bg.domain.SysUserExample" resultType="java.lang.Long">
+    select count(*) from sysUser
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update sysUser
     <set>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=BIGINT},
@@ -241,7 +241,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
+    update sysUser
     set user_id = #{record.userId,jdbcType=BIGINT},
       nickname = #{record.nickname,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=CHAR},
@@ -258,8 +258,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.SysUser">
+    update sysUser
     <set>
       <if test="nickname != null">
         nickname = #{nickname,jdbcType=VARCHAR},
@@ -297,8 +297,8 @@
     </set>
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.User">
-    update user
+  <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.SysUser">
+    update sysUser
     set nickname = #{nickname,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=CHAR},
       portrait = #{portrait,jdbcType=BIGINT},

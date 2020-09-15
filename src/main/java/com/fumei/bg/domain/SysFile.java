@@ -9,7 +9,7 @@ import com.fumei.bg.common.BaseEntity;
  * file
  * @author zkh
  */
-public class File extends BaseEntity implements Serializable {
+public class SysFile extends BaseEntity implements Serializable {
     /**
      * 主键
      */
@@ -170,7 +170,7 @@ public class File extends BaseEntity implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        File other = (File) that;
+        SysFile other = (SysFile) that;
         return (this.getFileId() == null ? other.getFileId() == null : this.getFileId().equals(other.getFileId()))
             && (this.getOriginalName() == null ? other.getOriginalName() == null : this.getOriginalName().equals(other.getOriginalName()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))

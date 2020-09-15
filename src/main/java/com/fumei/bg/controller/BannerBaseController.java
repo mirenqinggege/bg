@@ -2,8 +2,8 @@ package com.fumei.bg.controller;
 
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
+import com.fumei.bg.domain.SysFile;
 import com.fumei.bg.domain.web.BannerBase;
-import com.fumei.bg.domain.File;
 import com.fumei.bg.exception.FileException;
 import com.fumei.bg.service.IBannerBaseService;
 import com.fumei.bg.service.IFileService;
@@ -44,7 +44,7 @@ public class BannerBaseController extends BaseController {
         int i = 0;
         for (BannerBase base : bannerBase) {
             MultipartFile file = base.getFile();
-            File f = null;
+            SysFile f = null;
             if (file != null && !file.isEmpty()) {
                 try {
                     f = FileUploadUtil.fileUpload(file);

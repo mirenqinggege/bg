@@ -15,7 +15,7 @@
     <sql id="selectVo">
         select b.banner_id, title, title_sm, b.file_id, f.path banner_src, is_use, b.create_time, b.update_time
         from banner b
-        left join file f on b.file_id = f.file_id and f.is_delete = 0
+        left join sysFile f on b.file_id = f.file_id and f.is_delete = 0
     </sql>
 
     <select id="selectById" parameterType="java.lang.Long" resultMap="BannerBaseResult">
