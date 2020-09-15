@@ -2,6 +2,7 @@ package com.fumei.bg.common;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,8 @@ import java.util.List;
 /**
  * @author zkh
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
+    private static final long serialVersionUID = 8622501659705817175L;
     private Date createTime;
     private Date updateTime;
     private MultipartFile file;

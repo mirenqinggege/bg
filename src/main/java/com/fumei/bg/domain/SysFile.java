@@ -9,7 +9,7 @@ import com.fumei.bg.common.BaseEntity;
  * file
  * @author zkh
  */
-public class SysFile extends BaseEntity implements Serializable {
+public class SysFile extends BaseEntity {
     /**
      * 主键
      */

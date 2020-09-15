@@ -11,7 +11,7 @@ import lombok.Data;
  * @author zkh
  */
 @Data
-public class SysUser extends BaseEntity implements Serializable {
+public class SysUser extends BaseEntity {
     /**
      * 用户id
      */
