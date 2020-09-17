@@ -1,7 +1,7 @@
 package com.fumei.bg.service.impl;
 
-import com.fumei.bg.domain.SysFile;
-import com.fumei.bg.domain.SysFileExample;
+import com.fumei.bg.domain.system.SysFile;
+import com.fumei.bg.domain.system.SysFileExample;
 import com.fumei.bg.exception.FileException;
 import com.fumei.bg.mapper.SysFileMapper;
 import com.fumei.bg.service.IFileService;

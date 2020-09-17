@@ -1,4 +1,4 @@
-package com.fumei.bg.domain;
+package com.fumei.bg.domain.system;
 
 import java.util.ArrayList;
 import java.util.Date;

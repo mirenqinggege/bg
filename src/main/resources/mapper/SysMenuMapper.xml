@@ -1,37 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fumei.bg.mapper.SysMenuMapper">
-    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.SysMenu">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.system.SysMenu">
         <id jdbcType="BIGINT" javaType="java.lang.Long" column="menu_id" property="menuId"/>
-        <result jdbcType="BIGINT" javaType="java.lang.Long" column="parent_id" property="parentId"/>
-        <result jdbcType="VARCHAR" javaType="java.lang.String" column="parent_ids" property="parentIds"/>
-        <result jdbcType="INTEGER" javaType="java.lang.Integer" column="order_num" property="orderNum"/>
-        <result jdbcType="VARCHAR" javaType="java.lang.String" column="name" property="name"/>
-        <result jdbcType="VARCHAR" javaType="java.lang.String" column="link" property="link"/>
-        <result jdbcType="VARCHAR" javaType="java.lang.String" column="target" property="target"/>
+        <result jdbcType="CHAR" javaType="java.lang.String" column="type" property="type"/>
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="icon" property="icon"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="name" property="name"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="path" property="path"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="target" property="target"/>
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="status" property="status"/>
+        <result jdbcType="BIGINT" javaType="java.lang.Long" column="parent_id" property="parentId"/>
+        <result jdbcType="INTEGER" javaType="java.lang.Integer" column="order_num" property="orderNum"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="component" property="component"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="parent_ids" property="parentIds"/>
         <result jdbcType="TIMESTAMP" javaType="java.util.Date" column="create_time" property="createTime"/>
         <result jdbcType="TIMESTAMP" javaType="java.util.Date" column="update_time" property="updateTime"/>
     </resultMap>
 
     <sql id="selectVo">
-        select menu_id, parent_id, parent_ids, order_num, name, icon, href, target, create_time, update_time from sys_menu sm
+        select menu_id,
+               parent_id,
+               parent_ids,
+               order_num,
+               type,
+               name,
+               icon,
+               component,
+               path,
+               target,
+               status,
+               create_time,
+               update_time
+        from sys_menu
     </sql>
 
     <select id="selectMenuByParentIdIsNull" resultMap="BaseResultMap">
         <include refid="selectVo"/>
         <where>
-            parent_id is null
+            parent_id is null and `status` = '0'
         </where>
         order by order_num
     </select>
     <select id="selectMenuByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         <include refid="selectVo"/>
         <where>
-            parent_id = #{parentId}
+            parent_id = #{parentId} and `status` = '0'
         </where>
         order by order_num
+    </select>
+
+    <select id="selectMenu" resultMap="BaseResultMap" parameterType="com.fumei.bg.domain.system.SysMenu">
+        <include refid="selectVo"/>
+        <where>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="name != null and name != ''">
+                and `name` = #{name}
+            </if>
+            <if test="path != null and path != ''">
+                and `path` = #{path}
+            </if>
+            <if test="target != null and target != ''">
+                and `target` = #{target}
+            </if>
+            <if test="status != null and status != ''">
+                and `status` = #{status}
+            </if>
+            <if test="parentId != null">
+                and `parent_id` = #{parentId}
+            </if>
+            <if test="orderNum != null">
+                and `order_num` = #{orderNum}
+            </if>
+            <if test="component != null and component != ''">
+                and `component` = #{component}
+            </if>
+            <if test="parentIds != null and parentIds != ''">
+                and `parent_ids` = #{parentIds}
+            </if>
+            <if test="parentIds != null and parentIds != ''">
+                and `parent_ids` = #{parentIds}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and `create_time` = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and `update_time` = #{updateTime}
+            </if>
+        </where>
+
     </select>
 
 </mapper>

@@ -2,7 +2,7 @@ package com.fumei.bg.controller;
 
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
-import com.fumei.bg.domain.SysFile;
+import com.fumei.bg.domain.system.SysFile;
 import com.fumei.bg.exception.FileException;
 import com.fumei.bg.service.IFileService;
 import com.fumei.bg.util.FileUploadUtil;

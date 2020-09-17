@@ -1,7 +1,7 @@
 package com.fumei.bg.mapper;
 
-import com.fumei.bg.domain.SysUser;
-import com.fumei.bg.domain.SysUserExample;
+import com.fumei.bg.domain.system.SysUser;
+import com.fumei.bg.domain.system.SysUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,6 +1,6 @@
 package com.fumei.bg.service;
 
-import com.fumei.bg.domain.SysFile;
+import com.fumei.bg.domain.system.SysFile;
 import com.fumei.bg.exception.FileException;
 
 /**

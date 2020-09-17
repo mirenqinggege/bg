@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fumei.bg.mapper.SysFileMapper">
-  <resultMap id="BaseResultMap" type="com.fumei.bg.domain.SysFile">
+  <resultMap id="BaseResultMap" type="com.fumei.bg.domain.system.SysFile">
     <id column="file_id" jdbcType="BIGINT" property="fileId" />
     <result column="original_name" jdbcType="VARCHAR" property="originalName" />
     <result column="name" jdbcType="CHAR" property="name" />
@@ -76,7 +76,7 @@
    file_id, original_name, `name`, content_type, file_type, `path`, file_size, MD5,
     create_time, update_time, is_delete
   </sql>
-  <select id="selectByExample" parameterType="com.fumei.bg.domain.SysFileExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.fumei.bg.domain.system.SysFileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -100,13 +100,13 @@
     delete from sysFile
     where file_id = #{fileId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.fumei.bg.domain.SysFileExample">
+  <delete id="deleteByExample" parameterType="com.fumei.bg.domain.system.SysFileExample">
     delete from sysFile
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.SysFile" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.system.SysFile" useGeneratedKeys="true">
     insert into sysFile (original_name, `name`, content_type,
       file_type, `path`, file_size, 
       MD5, create_time, update_time, 
@@ -116,7 +116,7 @@
       #{md5,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{isDelete,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.SysFile" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.system.SysFile" useGeneratedKeys="true">
     insert into sysFile
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="originalName != null">
@@ -183,7 +183,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.fumei.bg.domain.SysFileExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.fumei.bg.domain.system.SysFileExample" resultType="java.lang.Long">
     select count(*) from sysFile
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -247,7 +247,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.SysFile">
+  <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.system.SysFile">
     update sysFile
     <set>
       <if test="originalName != null">
@@ -283,7 +283,7 @@
     </set>
     where file_id = #{fileId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.SysFile">
+  <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.system.SysFile">
     update sysFile
     set original_name = #{originalName,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=CHAR},

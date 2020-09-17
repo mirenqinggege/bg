@@ -28,6 +28,6 @@ public class Config implements WebMvcConfigurer {
         list.add("/reg");
         list.add("/captcha");
         list.add("/checkToken");
-        registry.addInterceptor(loginStatusValidateInterceptor).excludePathPatterns(list);
+        //registry.addInterceptor(loginStatusValidateInterceptor).excludePathPatterns(list);
     }
 }

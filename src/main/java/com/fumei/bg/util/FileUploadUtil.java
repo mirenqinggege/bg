@@ -1,7 +1,7 @@
 package com.fumei.bg.util;
 
 import com.fumei.bg.config.Global;
-import com.fumei.bg.domain.SysFile;
+import com.fumei.bg.domain.system.SysFile;
 import com.fumei.bg.exception.FileException;
 import org.springframework.web.multipart.MultipartFile;
 

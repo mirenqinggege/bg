@@ -3,7 +3,7 @@ package com.fumei.bg.controller;
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
 import com.fumei.bg.config.Global;
-import com.fumei.bg.domain.SysUser;
+import com.fumei.bg.domain.system.SysUser;
 import com.fumei.bg.service.IUserService;
 import com.fumei.bg.util.*;
 import org.springframework.web.bind.annotation.PostMapping;

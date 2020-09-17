@@ -1,7 +1,7 @@
 package com.fumei.bg.service.impl;
 
-import com.fumei.bg.domain.SysUser;
-import com.fumei.bg.domain.SysUserExample;
+import com.fumei.bg.domain.system.SysUser;
+import com.fumei.bg.domain.system.SysUserExample;
 import com.fumei.bg.mapper.SysUserMapper;
 import com.fumei.bg.service.IUserService;
 import com.fumei.bg.util.DateUtils;

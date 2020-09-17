@@ -7,7 +7,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!--<pattern>${CONSOLE_LOG_PATTERN}</pattern> -->
-            <pattern>%date{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) (%sysFile:%line\)- %m%n</pattern>
+            <pattern>%date{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) (%file:%line\)- %m%n</pattern>
             <!-- 控制台也要使用utf-8，不要使用gbk -->
             <charset>UTF-8</charset>
         </encoder>
@@ -23,7 +23,7 @@
         </rollingPolicy>
         <encoder>
             <pattern>
-                %d %p (%sysFile:%line\)- %m%n
+                %d %p (%file:%line\)- %m%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -50,7 +50,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %d %p (%sysFile:%line\)- %m%n
+                %d %p (%file:%line\)- %m%n
             </pattern>
             <!-- 记录日志的编码 -->
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->

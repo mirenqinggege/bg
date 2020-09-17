@@ -1,6 +1,6 @@
 package com.fumei.bg.util;
 
-import com.fumei.bg.domain.SysUser;
+import com.fumei.bg.domain.system.SysUser;
 
 import java.io.File;
 import java.io.FileInputStream;

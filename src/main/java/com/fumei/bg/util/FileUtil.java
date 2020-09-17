@@ -1,6 +1,6 @@
 package com.fumei.bg.util;
 
-import com.fumei.bg.domain.SysFile;
+import com.fumei.bg.domain.system.SysFile;
 import com.fumei.bg.exception.FileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

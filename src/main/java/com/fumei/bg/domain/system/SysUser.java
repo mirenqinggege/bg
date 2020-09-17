@@ -1,6 +1,5 @@
-package com.fumei.bg.domain;
+package com.fumei.bg.domain.system;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import com.fumei.bg.common.BaseEntity;

@@ -1,6 +1,6 @@
 package com.fumei.bg.service;
 
-import com.fumei.bg.domain.SysUser;
+import com.fumei.bg.domain.system.SysUser;
 
 /**
  * @author zkh
