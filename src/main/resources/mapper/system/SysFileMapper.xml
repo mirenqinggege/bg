@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fumei.bg.mapper.system.SysFileMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.system.SysFile">
+        <id column="file_id" jdbcType="BIGINT" property="fileId"/>
+        <result column="original_name" jdbcType="VARCHAR" property="originalName"/>
+        <result column="name" jdbcType="CHAR" property="name"/>
+        <result column="content_type" jdbcType="VARCHAR" property="contentType"/>
+        <result column="file_type" jdbcType="VARCHAR" property="fileType"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="file_size" jdbcType="VARCHAR" property="fileSize"/>
+        <result column="MD5" jdbcType="VARCHAR" property="md5"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
+    </resultMap>
+    <sql id="selectVo">
+        select sf.file_id,
+               original_name,
+               name,
+               content_type,
+               file_type,
+               path,
+               file_size,
+               MD5,
+               create_time,
+               update_time,
+               is_delete
+        from sys_file sf
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        where file_id = #{fileId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sys_file
+        where file_id = #{fileId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.fumei.bg.domain.system.SysFile"
+            useGeneratedKeys="true">
+        insert into sys_file (original_name, `name`, content_type,
+                              file_type, `path`, file_size,
+                              MD5, create_time)
+        values (#{originalName}, #{name}, #{contentType},
+                #{fileType}, #{path}, #{fileSize},
+                #{md5}, now())
+    </insert>
+    <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId"
+            parameterType="com.fumei.bg.domain.system.SysFile" useGeneratedKeys="true">
+        insert into sys_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="originalName != null">
+                original_name,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="contentType != null">
+                content_type,
+            </if>
+            <if test="fileType != null">
+                file_type,
+            </if>
+            <if test="path != null">
+                `path`,
+            </if>
+            <if test="fileSize != null">
+                file_size,
+            </if>
+            <if test="md5 != null">
+                MD5,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="originalName != null">
+                #{originalName,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=CHAR},
+            </if>
+            <if test="contentType != null">
+                #{contentType,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                #{fileType,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                #{fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="md5 != null">
+                #{md5,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectSysFileList" parameterType="com.fumei.bg.domain.system.SysFile"
+            resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        <where>
+            <if test="originalName != null">
+                and original_name = #{originalName,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null">
+                and `name` = #{name,jdbcType=CHAR}
+            </if>
+            <if test="contentType != null">
+                and content_type = #{contentType,jdbcType=VARCHAR}
+            </if>
+            <if test="fileType != null">
+                and file_type = #{fileType,jdbcType=VARCHAR}
+            </if>
+            <if test="path != null">
+                and `path` = #{path,jdbcType=VARCHAR}
+            </if>
+            <if test="fileSize != null">
+                and file_size = #{fileSize,jdbcType=VARCHAR}
+            </if>
+            <if test="md5 != null">
+                and MD5 = #{md5,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.fumei.bg.domain.system.SysFile">
+        update sys_file
+        <set>
+            <if test="originalName != null">
+                original_name = #{originalName,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=CHAR},
+            </if>
+            <if test="contentType != null">
+                content_type = #{contentType,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                file_type = #{fileType,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                `path` = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="md5 != null">
+                MD5 = #{md5,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where file_id = #{fileId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.system.SysFile">
+        update sys_file
+        set original_name = #{originalName,jdbcType=VARCHAR},
+            `name`        = #{name,jdbcType=CHAR},
+            content_type  = #{contentType,jdbcType=VARCHAR},
+            file_type     = #{fileType,jdbcType=VARCHAR},
+            `path`        = #{path,jdbcType=VARCHAR},
+            file_size     = #{fileSize,jdbcType=VARCHAR},
+            MD5           = #{md5,jdbcType=VARCHAR},
+            update_time   = now(),
+            is_delete     = #{isDelete}
+        where file_id = #{fileId,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zkh
@@ -18,6 +19,8 @@ public class SysMenu extends BaseEntity {
     private Long menuId;
     /** 父菜单id */
     private Long parentId;
+    /** 父菜单名称 */
+    private String parentName;
     /** 祖级id */
     private String parentIds;
     /** 排序 */
@@ -36,6 +39,8 @@ public class SysMenu extends BaseEntity {
     private String icon;
     /** 菜单状态 */
     private String status;
+    /** 是否存在子菜单 */
+    private Boolean hasChild;
     /** 子菜单 */
-    private ArrayList<SysMenu> child = new ArrayList<>(16);
+    private List<SysMenu> child = new ArrayList<>(16);
 }

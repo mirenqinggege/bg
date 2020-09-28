@@ -4,7 +4,7 @@ import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
 import com.fumei.bg.config.Global;
 import com.fumei.bg.domain.system.SysUser;
-import com.fumei.bg.service.IUserService;
+import com.fumei.bg.service.system.ISysUserService;
 import com.fumei.bg.util.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +19,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 public class LoginController extends BaseController {
-    private final IUserService userService;
+    private final ISysUserService userService;
     private final RedisCache redisCache;
     private final String tokenHeader = Global.getConfig("Token.header");
     private final Integer expiry = Integer.parseInt(Global.getConfig("Token.expireTime")) / 1000;
 
-    public LoginController(IUserService userService, RedisCache redisCache) {
+    public LoginController(ISysUserService userService, RedisCache redisCache) {
         this.userService = userService;
         this.redisCache = redisCache;
     }

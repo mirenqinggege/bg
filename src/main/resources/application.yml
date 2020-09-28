@@ -11,10 +11,11 @@ server:
   port: 8081
 
 mybatis:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/*Mapper.xml, classpath*:/mapper/*/*Mapper.xml
   type-aliases-package: com.fumei.bg.domain
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 logging:
   config: classpath:logback.xml

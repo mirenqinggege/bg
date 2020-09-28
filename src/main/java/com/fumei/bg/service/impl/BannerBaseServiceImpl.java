@@ -30,10 +30,9 @@ public class BannerBaseServiceImpl implements IBannerBaseService {
     @Override
     public int save(BannerBase bannerBase) {
         bannerBase.setCreateTime(DateUtils.currentTime());
-        bannerBase.setUse(true);
         List<BannerBase> bannerBases = mapper.selectByUse();
         if(bannerBases.size() > maxBannerCount){
-            BannerBase bannerBase1 = bannerBases.get(maxBannerCount);
+            BannerBase bannerBase1 = bannerBases.get(maxBannerCount - 1);
             mapper.updateById(bannerBase1);
         }
         return mapper.insert(bannerBase);
@@ -47,5 +46,38 @@ public class BannerBaseServiceImpl implements IBannerBaseService {
     @Override
     public List<BannerBase> getUseBanner() {
         return mapper.selectByUse();
+    }
+
+    /**
+     * 获取广告列表
+     *
+     * @param banner 广告
+     * @return 广告列表
+     */
+    @Override
+    public List<BannerBase> getBannerList(BannerBase banner) {
+        return mapper.selectBannerList(banner);
+    }
+
+    /**
+     * 修改广告信息
+     *
+     * @param banner 广告
+     * @return 是否成功 （1成功 0失败）
+     */
+    @Override
+    public int edit(BannerBase banner) {
+        return mapper.updateById(banner);
+    }
+
+    /**
+     * 删除广告信息
+     *
+     * @param bannerId 广告id
+     * @return 是否成功 （1成功 0失败）
+     */
+    @Override
+    public int remove(Long bannerId) {
+        return mapper.deleteByPrimaryKey(bannerId);
     }
 }

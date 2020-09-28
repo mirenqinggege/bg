@@ -12,10 +12,10 @@ import java.security.NoSuchAlgorithmException;
 /**
  * @author zkh
  */
-@SuppressWarnings({"AlibabaClassNamingShouldBeCamel","AlibabaLowerCamelCaseVariableNaming"})
+@SuppressWarnings({"AlibabaClassNamingShouldBeCamel", "AlibabaLowerCamelCaseVariableNaming"})
 public class MD5Util {
 
-    public static String MD5Encoding(String str){
+    public static String MD5Encoding(String str) {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -34,7 +34,6 @@ public class MD5Util {
             MessageDigest md = MessageDigest.getInstance("MD5");
             fis = new FileInputStream(file);
             byte[] buffer = new byte[2048];
-            long var5 = System.currentTimeMillis();
 
             int length;
             while ((length = fis.read(buffer)) != -1) {
@@ -55,7 +54,6 @@ public class MD5Util {
             }
 
         }
-
         return null;
     }
 
@@ -80,7 +78,7 @@ public class MD5Util {
 
     public static void passwordEncoding(SysUser sysUser) {
         String loginName = sysUser.getLoginName(), password = sysUser.getPassword(), salt = sysUser.getSalt();
-        if(salt ==  null){
+        if (salt == null) {
             sysUser.setSalt(getRandomChar(4));
         }
         sysUser.setPassword(MD5Encoding(loginName + password + salt));
@@ -92,9 +90,19 @@ public class MD5Util {
 
     public static String getRandomChar(int count) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0;i < count;i++){
+        for (int i = 0; i < count; i++) {
             sb.append(getRandomChar());
         }
         return sb.toString();
+    }
+
+    public static String MD5Encoding(byte[] bytes) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return bytesToHexString(md.digest(bytes));
     }
 }

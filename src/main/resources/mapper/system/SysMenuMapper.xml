@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.fumei.bg.mapper.SysMenuMapper">
+<mapper namespace="com.fumei.bg.mapper.system.SysMenuMapper">
     <resultMap id="BaseResultMap" type="com.fumei.bg.domain.system.SysMenu">
         <id jdbcType="BIGINT" javaType="java.lang.Long" column="menu_id" property="menuId"/>
         <result jdbcType="CHAR" javaType="java.lang.String" column="type" property="type"/>
@@ -10,6 +10,8 @@
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="target" property="target"/>
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="status" property="status"/>
         <result jdbcType="BIGINT" javaType="java.lang.Long" column="parent_id" property="parentId"/>
+        <result jdbcType="VARCHAR" javaType="java.lang.String" column="parent_name" property="parentName"/>
+        <result jdbcType="BIT" javaType="java.lang.Boolean" column="has_child" property="hasChild"/>
         <result jdbcType="INTEGER" javaType="java.lang.Integer" column="order_num" property="orderNum"/>
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="component" property="component"/>
         <result jdbcType="VARCHAR" javaType="java.lang.String" column="parent_ids" property="parentIds"/>
@@ -22,6 +24,8 @@
                parent_id,
                parent_ids,
                order_num,
+               ifnull((select name from sys_menu ssm where ssm.menu_id = sm.parent_id),"顶级菜单") parent_name,
+               (select count(ssm.menu_id) > 0 from sys_menu ssm where ssm.parent_id = sm.menu_id) has_child,
                type,
                name,
                icon,
@@ -31,20 +35,45 @@
                status,
                create_time,
                update_time
-        from sys_menu
+        from sys_menu sm
     </sql>
+    <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.system.SysMenu">
+        update sys_menu
+        set parent_id   = #{parentId},
+            parent_ids  = #{parentIds},
+            order_num   = #{orderNum},
+            type        = #{type},
+            name        = #{name},
+            icon        = #{icon},
+            component   = #{component},
+            path        = #{path},
+            target      = #{target},
+            status      = #{status},
+            update_time = now()
+        where menu_id = #{menuId}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from sys_menu where menu_id = #{menuId}
+    </delete>
+
+    <insert id="insert" parameterType="com.fumei.bg.domain.system.SysMenu" keyProperty="menuId" useGeneratedKeys="true">
+        insert into sys_menu(parent_id, parent_ids, order_num, type, name, icon, component, path, target, status,
+                             create_time)
+        values (#{parentId}, #{parentIds}, #{orderNum}, #{type}, #{name}, #{icon}, #{component}, #{path}, #{target},
+                #{status}, now())
+    </insert>
 
     <select id="selectMenuByParentIdIsNull" resultMap="BaseResultMap">
         <include refid="selectVo"/>
         <where>
-            parent_id is null and `status` = '0'
+            parent_id is null
         </where>
         order by order_num
     </select>
     <select id="selectMenuByParentId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         <include refid="selectVo"/>
         <where>
-            parent_id = #{parentId} and `status` = '0'
+            parent_id = #{parentId}
         </where>
         order by order_num
     </select>
@@ -70,8 +99,11 @@
             <if test="status != null and status != ''">
                 and `status` = #{status}
             </if>
-            <if test="parentId != null">
+            <if test="parentId != null and parentId != -1">
                 and `parent_id` = #{parentId}
+            </if>
+            <if test="parentId == -1">
+                and `parent_id` is null
             </if>
             <if test="orderNum != null">
                 and `order_num` = #{orderNum}
@@ -92,7 +124,21 @@
                 and `update_time` = #{updateTime}
             </if>
         </where>
+        order by order_num
+        ${params.pageInfo}
+    </select>
+    <select id="selectAllMenus" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        where `status` = "0"
+        order by order_num
+    </select>
 
+
+    <select id="selectMenuByPrimary" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        <include refid="selectVo"/>
+        <where>
+            menu_id = #{menuId}
+        </where>
     </select>
 
 </mapper>

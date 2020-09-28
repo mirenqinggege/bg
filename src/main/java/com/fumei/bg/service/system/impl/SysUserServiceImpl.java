@@ -1,9 +1,9 @@
-package com.fumei.bg.service.impl;
+package com.fumei.bg.service.system.impl;
 
 import com.fumei.bg.domain.system.SysUser;
 import com.fumei.bg.domain.system.SysUserExample;
-import com.fumei.bg.mapper.SysUserMapper;
-import com.fumei.bg.service.IUserService;
+import com.fumei.bg.mapper.system.SysUserMapper;
+import com.fumei.bg.service.system.ISysUserService;
 import com.fumei.bg.util.DateUtils;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.List;
  * @author zkh
  */
 @Service
-public class UserServiceImpl implements IUserService {
+public class SysUserServiceImpl implements ISysUserService {
     public final SysUserMapper mapper;
 
-    public UserServiceImpl(SysUserMapper mapper) {
+    public SysUserServiceImpl(SysUserMapper mapper) {
         this.mapper = mapper;
     }
 

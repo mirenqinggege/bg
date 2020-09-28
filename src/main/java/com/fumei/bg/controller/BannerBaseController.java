@@ -2,19 +2,13 @@ package com.fumei.bg.controller;
 
 import com.fumei.bg.common.AjaxResult;
 import com.fumei.bg.common.BaseController;
-import com.fumei.bg.domain.system.SysFile;
 import com.fumei.bg.domain.web.BannerBase;
-import com.fumei.bg.exception.FileException;
 import com.fumei.bg.service.IBannerBaseService;
-import com.fumei.bg.service.IFileService;
-import com.fumei.bg.util.FileUploadUtil;
-import com.fumei.bg.util.StringUtils;
+import com.fumei.bg.service.system.ISysFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,11 +21,9 @@ import java.io.IOException;
 public class BannerBaseController extends BaseController {
     private static final Logger log = LoggerFactory.getLogger(BannerBaseController.class);
     private final IBannerBaseService bannerBaseService;
-    private final IFileService fileService;
 
-    public BannerBaseController(IBannerBaseService bannerBaseService, IFileService fileService) {
+    public BannerBaseController(IBannerBaseService bannerBaseService) {
         this.bannerBaseService = bannerBaseService;
-        this.fileService = fileService;
     }
 
     @GetMapping("/getBanners")
@@ -39,25 +31,23 @@ public class BannerBaseController extends BaseController {
         return success("获取banners成功", bannerBaseService.getUseBanner());
     }
 
+    @GetMapping("/getBannerList")
+    public AjaxResult getBannerList(BannerBase banner){
+        return success("获取广告列表成功",bannerBaseService.getBannerList(banner));
+    }
+
     @PostMapping("/saveBanner")
-    public AjaxResult saveBanner(BannerBase... bannerBase) {
-        int i = 0;
-        for (BannerBase base : bannerBase) {
-            MultipartFile file = base.getFile();
-            SysFile f = null;
-            if (file != null && !file.isEmpty()) {
-                try {
-                    f = FileUploadUtil.fileUpload(file);
-                    if (fileService.save(f) == 0) {
-                        throw new FileException("保存文件信息到数据库失败");
-                    }
-                    base.setFileId(f.getFileId());
-                } catch (IOException | FileException e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-            i += bannerBaseService.save(base);
+    @Transactional
+    public AjaxResult saveBanner(@RequestBody BannerBase banner){
+        if (banner.getBannerId() == null) {
+            return toAjax(bannerBaseService.save(banner), "保存广告信息成功","保存广告信息失败");
+        } else {
+            return toAjax(bannerBaseService.edit(banner), "修改广告信息成功", "修改广告信息失败");
         }
-        return success(StringUtils.format("上传文件{}个，成功{}个，失败{}个",bannerBase.length,i,bannerBase.length - i));
+    }
+    
+    @DeleteMapping("/delBanner/{bannerId}")
+    public AjaxResult delBanner(@PathVariable Long bannerId){
+        return toAjax(bannerBaseService.remove(bannerId),"删除广告信息成功","删除广告信息失败");
     }
 }

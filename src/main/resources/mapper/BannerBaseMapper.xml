@@ -3,20 +3,32 @@
 <mapper namespace="com.fumei.bg.mapper.BannerBaseMapper">
     <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.web.BannerBase">
         <id column="banner_id" property="bannerId" javaType="java.lang.Long" jdbcType="BIGINT"/>
-        <result property="fileId" column="file_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="fileId" column="file_id" jdbcType="VARCHAR" javaType="java.lang.Long"/>
         <result property="bannerSrc" column="banner_src" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result property="content" column="content" jdbcType="LONGVARCHAR" javaType="java.lang.String"/>
-        <result property="use" column="is_use" jdbcType="INTEGER" javaType="java.lang.Boolean"/>
+        <result property="use" column="is_use" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result property="title" column="title" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result property="titleSm" column="title_sm" jdbcType="VARCHAR" javaType="java.lang.String"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
     </resultMap>
     <sql id="selectVo">
-        select b.banner_id, title, title_sm, b.file_id, f.path banner_src, is_use, b.create_time, b.update_time
+        select b.banner_id,
+               title,
+               title_sm,
+               b.file_id,
+               f.path banner_src,
+               is_use,
+               b.create_time,
+               b.update_time
         from banner b
-        left join sysFile f on b.file_id = f.file_id and f.is_delete = 0
+                 left join sys_file f on b.file_id = f.file_id and f.is_delete = 0
     </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from banner
+        where banner_id = #{bannerId}
+    </delete>
 
     <select id="selectById" parameterType="java.lang.Long" resultMap="BannerBaseResult">
         <include refid="selectVo"/>
@@ -32,15 +44,35 @@
         </where>
         order by create_time desc
     </select>
+    <select id="selectBannerList" parameterType="com.fumei.bg.domain.web.BannerBase" resultMap="BannerBaseResult">
+        <include refid="selectVo"/>
+        <where>
+            <if test="use != null and use">
+                and is_use = #{use}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="titleSm != null and titleSm != ''">
+                and title_sm = #{titleSm}
+            </if>
+        </where>
+        ${params.pageInfo}
+    </select>
 
-    <insert id="insert" parameterType="com.fumei.bg.domain.web.BannerBase" keyColumn="banner_id" keyProperty="bannerId" useGeneratedKeys="true">
-        insert into banner(banner_id, title, title_sm, file_id, is_use, create_time, update_time)
-        values(#{bannerId}, #{title}, #{titleSm}, #{fileId}, #{use}, #{createTime}, #{updateTime})
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.BannerBase" keyColumn="banner_id" keyProperty="bannerId"
+            useGeneratedKeys="true">
+        insert into banner(title, title_sm, file_id, is_use, create_time)
+        values (#{title}, #{titleSm}, #{fileId}, #{use}, now())
     </insert>
 
     <update id="updateById" parameterType="com.fumei.bg.domain.web.BannerBase">
-        update banner b set
-        b.title = #{title}, b.title_sm = #{titleSm}, b.file_id = #{fileId}, b.is_use = #{use}, b.create_time = #{createTime}, b.update_time = #{updateTime}
+        update banner b
+        set b.title       = #{title},
+            b.title_sm    = #{titleSm},
+            b.file_id     = #{fileId},
+            b.is_use      = #{use},
+            b.update_time = now()
         where b.banner_id = #{bannerId}
     </update>
 </mapper>

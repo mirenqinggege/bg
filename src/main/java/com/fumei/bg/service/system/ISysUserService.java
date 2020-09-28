@@ -1,11 +1,11 @@
-package com.fumei.bg.service;
+package com.fumei.bg.service.system;
 
 import com.fumei.bg.domain.system.SysUser;
 
 /**
  * @author zkh
  */
-public interface IUserService {
+public interface ISysUserService {
     /**
      *  检查手机号是否唯一
      * @param sysUser 用户对象

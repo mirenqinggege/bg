@@ -5,7 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author zkh
@@ -14,8 +13,6 @@ public class BaseEntity implements Serializable {
     private static final long serialVersionUID = 8622501659705817175L;
     private Date createTime;
     private Date updateTime;
-    private MultipartFile file;
-    private List<MultipartFile> files;
     private HashMap<String, Object> params;
 
     public Date getCreateTime() {
@@ -43,21 +40,5 @@ public class BaseEntity implements Serializable {
 
     public void setParams(HashMap<String, Object> params) {
         this.params = params;
-    }
-
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    public List<MultipartFile> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<MultipartFile> files) {
-        this.files = files;
     }
 }

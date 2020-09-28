@@ -4,9 +4,6 @@ import com.fumei.bg.common.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.util.Date;
-
 /**
  * @author zkh
  */

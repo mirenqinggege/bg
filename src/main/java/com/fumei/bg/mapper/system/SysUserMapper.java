@@ -1,4 +1,4 @@
-package com.fumei.bg.mapper;
+package com.fumei.bg.mapper.system;
 
 import com.fumei.bg.domain.system.SysUser;
 import com.fumei.bg.domain.system.SysUserExample;

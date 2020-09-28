@@ -37,13 +37,10 @@ public class FileUtil {
         return new DecimalFormat("#.00").format(result) + " " + unit;
     }
 
-    public static File createNewFile(String basePath, String originalFilename, SysFile sysFile2) throws FileException {
+    public static File createNewFile(String basePath, String originalFilename, SysFile sysFile2) {
         String dateFilePath = DateUtils.getDateFilePath();
         String path = basePath + "/" + dateFilePath, fileName = FileUtil.fileNameEncoding(originalFilename);
         File file = new File(path), file1 = new File(path + "/" + fileName);
-        if (file1.exists()) {
-            throw new FileException("文件已存在");
-        }
         if (file.exists() && file.isDirectory()) {
             try {
                 file1.createNewFile();
@@ -66,10 +63,14 @@ public class FileUtil {
     public static String fileNameEncoding(String originalFilename) {
         int index = originalFilename.lastIndexOf(".");
         String fileName = originalFilename.substring(0, index);
-        return MD5Util.MD5Encoding(fileName) + originalFilename.substring(index);
+        return MD5Util.MD5Encoding(fileName + System.currentTimeMillis()) + originalFilename.substring(index);
     }
 
     public static String fileEncoding(File file) {
         return MD5Util.MD5Encoding(file);
+    }
+
+    public static String getFileType(MultipartFile file) {
+        return file.getContentType().split("/")[0];
     }
 }

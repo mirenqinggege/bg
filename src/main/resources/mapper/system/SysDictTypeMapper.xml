@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fumei.bg.mapper.system.SysDictTypeMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.system.SysDictType">
+        <id column="dict_id" property="dictId"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="is_disabled" property="isDisabled"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <sql id="selectVo">
+        select sdt.dict_id, dict_type, dict_name, is_disabled, remark, create_time, update_time
+        from sys_dict_type sdt
+    </sql>
+    <insert id="insert" parameterType="com.fumei.bg.domain.system.SysDictType" useGeneratedKeys="true"
+            keyProperty="dictId" keyColumn="dict_id">
+        insert into sys_dict_type(dict_type, dict_name, is_disabled, remark, create_time)
+        values (#{dictType}, #{dictName}, #{isDisabled}, #{remark}, now())
+    </insert>
+    <update id="update" parameterType="com.fumei.bg.domain.system.SysDictType">
+        update sys_dict_type
+        set dict_type   = #{dictType},
+            dict_name   = #{dictName},
+            is_disabled = #{isDisabled},
+            remark      = #{remark},
+            update_time = now()
+        where dict_id = #{dictId}
+    </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete
+        from sys_dict_type
+        where dict_id = #{dictId}
+    </delete>
+    <select id="selectDictTypeList" resultMap="BaseResultMap" parameterType="com.fumei.bg.domain.system.SysDictType">
+        <include refid="selectVo"/>
+        <where>
+            <if test="dictType != null and dictType != ''">
+                and dict_type = #{dictType}
+            </if>
+            <if test="dictName != null and dictName != ''">
+                and dict_name = #{dictName}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+        </where>
+        ${params.pageInfo}
+    </select>
+</mapper>
