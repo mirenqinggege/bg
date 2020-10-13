@@ -2,10 +2,15 @@ spring:
   profiles:
     active: druid
 
+
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 500MB
+  cache:
+    redis:
+      cache-null-values: true
+      time-to-live: 30
 
 server:
   port: 8081
@@ -16,6 +21,11 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
 
 logging:
   config: classpath:logback.xml
@@ -31,5 +41,6 @@ Token:
   secret: zkfm
   header: Authorization
 
-Banner:
+WEB:
   maxBannerCount: 5
+  maxTraitCount: 4

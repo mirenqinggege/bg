@@ -54,6 +54,10 @@
                 and remark = #{remark}
             </if>
         </where>
-        ${params.pageInfo}
+        order by dict_id
+    </select>
+    <select id="selectDictByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        where dict_id = #{dictId}
     </select>
 </mapper>

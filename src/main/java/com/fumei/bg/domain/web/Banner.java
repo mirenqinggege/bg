@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class BannerBase extends ElementBase {
+public class Banner extends ElementBase {
 
     private static final long serialVersionUID = 5819686520006339040L;
     private Long bannerId;

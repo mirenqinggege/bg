@@ -37,4 +37,12 @@ public interface SysDictTypeMapper {
      * @return 执行结果 1成功 0失败
      */
     int delete(Long dictId);
+
+    /**
+     * 根据id获取字典类型
+     *
+     * @param dictId 字典id
+     * @return 字典类型
+     */
+    SysDictType selectDictByPrimaryKey(Long dictId);
 }

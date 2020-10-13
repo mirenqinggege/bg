@@ -1,12 +1,15 @@
 package com.fumei.bg.service.system.impl;
 
 import com.fumei.bg.domain.system.SysDictData;
+import com.fumei.bg.domain.system.SysDictType;
 import com.fumei.bg.mapper.system.SysDictDataMapper;
 import com.fumei.bg.service.system.ISysDictDataService;
 import com.fumei.bg.util.RedisCache;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zkh
@@ -76,5 +79,31 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     @Override
     public int remove(Long dataId) {
         return mapper.delete(dataId);
+    }
+
+    /**
+     * 根据字典id获取字典数据
+     *
+     * @param dictId 字典id
+     * @return 字典数据集合
+     */
+    @Override
+    public List<SysDictData> getDictDataListByDictId(Long dictId) {
+        return mapper.selectDictDataListByDictId(dictId);
+    }
+
+    /**
+     * 根据多个id修改字典类型
+     *
+     * @param dictType 字典类型
+     * @param dataIds  字典id
+     * @return 执行结果 >0成功 0失败
+     */
+    @Override
+    public int editDictTypeByIds(String dictType, List<Long> dataIds) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("dictType", dictType);
+        map.put("dataIds", dataIds);
+        return mapper.updateDictTypeByIds(map);
     }
 }

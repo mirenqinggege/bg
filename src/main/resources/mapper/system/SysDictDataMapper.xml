@@ -27,6 +27,15 @@
             remark      = #{remark}
         where data_id = #{dataId}
     </update>
+    <update id="updateDictTypeByIds" parameterType="java.util.Map">
+        update sys_dict_data set dict_type = #{dictType}
+        <where>
+            data_id in
+            <foreach collection="dataIds" item="dataId" open="(" close=")" separator=",">
+                #{dataId}
+            </foreach>
+        </where>
+    </update>
     <delete id="delete" parameterType="java.lang.Long">
         delete
         from sys_dict_data
@@ -54,6 +63,12 @@
                 and remark = #{remark}
             </if>
         </where>
-        ${params.pageInfo}
+        order by data_id
+    </select>
+    <select id="selectDictDataListByDictId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select sdd.data_id, sdd.dict_type, label, value, sdd.create_time, sdd.update_time, sdd.remark
+        from sys_dict_data sdd
+                 inner join sys_dict_type sdt on sdd.dict_type = sdt.dict_type
+        where sdt.dict_id = #{dictId}
     </select>
 </mapper>

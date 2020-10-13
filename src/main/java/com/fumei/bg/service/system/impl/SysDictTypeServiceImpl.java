@@ -61,4 +61,15 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     public int remove(Long dictId) {
         return mapper.delete(dictId);
     }
+
+    /**
+     * 根据id获取字典类型
+     *
+     * @param dictId 字典id
+     * @return 字典类型
+     */
+    @Override
+    public SysDictType getDictType(Long dictId) {
+        return mapper.selectDictByPrimaryKey(dictId);
+    }
 }

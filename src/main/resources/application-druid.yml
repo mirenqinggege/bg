@@ -29,5 +29,8 @@ spring:
       web-stat-filter:
         enabled: true
         url-pattern: /*
-
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
 

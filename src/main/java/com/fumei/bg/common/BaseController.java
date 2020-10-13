@@ -1,11 +1,34 @@
 package com.fumei.bg.common;
 
+import com.fumei.bg.util.ServletUtil;
+import com.fumei.bg.util.StringUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import java.util.List;
+
 /**
  * 控制器基础类
  *
  * @author zkh
  */
 public class BaseController {
+
+    protected void startPage(){
+        String parameter = ServletUtil.getRequest().getParameter(Constant.PAGE_NUM);
+        String parameter1 = ServletUtil.getRequest().getParameter(Constant.PAGE_SIZE);
+        int pageNum = Integer.parseInt(StringUtils.isNull(parameter) ? "1" : parameter);
+        int pageSize = Integer.parseInt(StringUtils.isNull(parameter1) ? "6" : parameter1);
+        PageHelper.startPage(pageNum, pageSize);
+    }
+
+    protected <T> PageInfo<T> toPageList(List<T> list){
+        return new PageInfo<>(list);
+    }
+
+
+
     /**
      * 返回成功信息
      *

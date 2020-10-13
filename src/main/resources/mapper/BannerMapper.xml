@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fumei.bg.mapper.BannerBaseMapper">
-    <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.web.BannerBase">
+<mapper namespace="com.fumei.bg.mapper.BannerMapper">
+    <resultMap id="BannerBaseResult" type="com.fumei.bg.domain.web.Banner">
         <id column="banner_id" property="bannerId" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result property="fileId" column="file_id" jdbcType="VARCHAR" javaType="java.lang.Long"/>
         <result property="bannerSrc" column="banner_src" jdbcType="VARCHAR" javaType="java.lang.String"/>
@@ -40,11 +40,11 @@
     <select id="selectByUse" resultMap="BannerBaseResult">
         <include refid="selectVo"/>
         <where>
-            is_use = 1
+            is_use = "1"
         </where>
         order by create_time desc
     </select>
-    <select id="selectBannerList" parameterType="com.fumei.bg.domain.web.BannerBase" resultMap="BannerBaseResult">
+    <select id="selectBannerList" parameterType="com.fumei.bg.domain.web.Banner" resultMap="BannerBaseResult">
         <include refid="selectVo"/>
         <where>
             <if test="use != null and use">
@@ -57,16 +57,16 @@
                 and title_sm = #{titleSm}
             </if>
         </where>
-        ${params.pageInfo}
+        order by banner_id
     </select>
 
-    <insert id="insert" parameterType="com.fumei.bg.domain.web.BannerBase" keyColumn="banner_id" keyProperty="bannerId"
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.Banner" keyColumn="banner_id" keyProperty="bannerId"
             useGeneratedKeys="true">
         insert into banner(title, title_sm, file_id, is_use, create_time)
         values (#{title}, #{titleSm}, #{fileId}, #{use}, now())
     </insert>
 
-    <update id="updateById" parameterType="com.fumei.bg.domain.web.BannerBase">
+    <update id="updateById" parameterType="com.fumei.bg.domain.web.Banner">
         update banner b
         set b.title       = #{title},
             b.title_sm    = #{titleSm},

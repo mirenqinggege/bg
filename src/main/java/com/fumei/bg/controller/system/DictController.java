@@ -6,7 +6,11 @@ import com.fumei.bg.domain.system.SysDictData;
 import com.fumei.bg.domain.system.SysDictType;
 import com.fumei.bg.service.system.ISysDictDataService;
 import com.fumei.bg.service.system.ISysDictTypeService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zkh
@@ -24,21 +28,35 @@ public class DictController extends BaseController {
 
     @GetMapping("/getDictTypeList")
     public AjaxResult getDictTypeList(SysDictType dictType){
-        return success("获取字典类型列表成功", typeService.getDictTypeList(dictType));
+        startPage();
+        return success("获取字典类型列表成功", toPageList(typeService.getDictTypeList(dictType)));
     }
 
-    @GetMapping("/getDictDataList/{dictType}")
+    @GetMapping("/getDictDataListByDictType/{dictType}")
     public AjaxResult getDictDataList(@PathVariable String dictType){
         SysDictData dictData = new SysDictData();
         dictData.setDictType(dictType);
         return success("获取字典数据列表成功", dataService.getDictDataList(dictData));
     }
 
+    @GetMapping("/getDictDataList")
+    public AjaxResult getDictDataList(SysDictData dictData){
+        startPage();
+        return success("获取字典数据列表成功", toPageList(dataService.getDictDataList(dictData)));
+    }
+
     @PostMapping("/dictTypeSave")
+    @Transactional(rollbackFor = Exception.class)
     public AjaxResult dictTypeSave(@RequestBody SysDictType dictType){
         if (dictType.getDictId() == null) {
             return toAjax(typeService.save(dictType), "保存字典类型成功", "保存字典类型失败");
         } else {
+            List<SysDictData> dictDataList = dataService.getDictDataListByDictId(dictType.getDictId());
+            List<Long> dataIds = new ArrayList<>(dictDataList.size());
+            dictDataList.forEach(sysDictData -> {
+                dataIds.add(sysDictData.getDataId());
+            });
+            dataService.editDictTypeByIds(dictType.getDictType(), dataIds);
             return toAjax(typeService.edit(dictType), "修改字典类型成功","修改字典类型失败");
         }
     }
