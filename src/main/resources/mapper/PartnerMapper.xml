@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fumei.bg.mapper.PartnerMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.web.Partner">
+        <id column="p_id" property="pId"/>
+        <result column="title" property="title"/>
+        <result column="title_sm" property="titleSm"/>
+        <result column="file_id" property="fileId"/>
+        <result column="is_use" property="use"/>
+        <result column="path" property="logoSrc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectVo">
+        select p.p_id, p.title, p.title_sm, p.file_id, p.is_use, sf.path, p.create_time, p.update_time
+        from partner p
+                 left join sys_file sf on p.file_id = sf.file_id and sf.is_delete = '0'
+    </sql>
+
+    <select id="selectPartnerList" resultMap="BaseResultMap" parameterType="com.fumei.bg.domain.web.Partner">
+        <include refid="selectVo"/>
+        <where>
+            <if test="title != null">
+                and p.title = #{title}
+            </if>
+            <if test="titleSm != null">
+                and p.title_sm = #{titleSm}
+            </if>
+            <if test="use != null">
+                and p.is_use = #{use}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.Partner" useGeneratedKeys="true">
+        insert into partner(title, title_sm, file_id, is_use, create_time)
+        values (#{title}, #{titleSm}, #{fileId}, #{use}, now())
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.web.Partner">
+        update partner
+        set title       = #{title},
+            title_sm    = #{titleSm},
+            file_id     = #{fileId},
+            is_use      = #{use},
+            update_time = now()
+        where p_id = #{pId}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from partner where p_id = #{pId}
+    </delete>
+</mapper>

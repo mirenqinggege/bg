@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fumei.bg.mapper.GroupInfoMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.web.GroupInfo">
+        <id column="info_id" property="infoId"/>
+        <result column="title" property="title"/>
+        <result column="title_sm" property="titleSm"/>
+        <result column="content" property="content"/>
+        <result column="file_id" property="fileId"/>
+        <result column="path" property="imgSrc"/>
+        <result column="in_mode" property="inMode"/>
+        <result column="is_use" property="use"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectVo">
+        select gi.info_id,
+               gi.title,
+               gi.title_sm,
+               gi.content,
+               gi.file_id,
+               sf.path,
+               gi.in_mode,
+               gi.is_use,
+               gi.create_time,
+               gi.update_time
+        from group_info gi
+                 left join sys_file sf on gi.file_id = sf.file_id and sf.is_delete = '0'
+    </sql>
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.GroupInfo" useGeneratedKeys="true">
+        insert into group_info(title, title_sm, content, file_id, in_mode, is_use, create_time)
+        values (#{title}, #{titleSm}, #{content}, #{fileId}, #{inMode}, #{use}, now())
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.web.GroupInfo">
+        update group_info
+        set title       = #{title},
+            title_sm    = #{titleSm},
+            content     = #{content},
+            file_id     = #{fileId},
+            in_mode     = #{inMode},
+            is_use      = #{use},
+            update_time = now()
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from group_info where info_id = #{infoId}
+    </delete>
+
+    <select id="selectGroupInfoList" parameterType="com.fumei.bg.domain.web.GroupInfo" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        <where>
+            <if test="title != null">
+                and gi.title = #{title}
+            </if>
+            <if test="titleSm != null">
+                and gi.title_sm = #{titleSm}
+            </if>
+            <if test="content != null">
+                and gi.content = #{content}
+            </if>
+            <if test="fileId != null">
+                and gi.file_id = #{fileId}
+            </if>
+            <if test="inMode != null">
+                and gi.in_mode = #{inMode}
+            </if>
+            <if test="use != null">
+                and gi.is_use = #{use}
+            </if>
+        </where>
+    </select>
+    <select id="selectIndexGroupInfo" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        <where>
+            gi.is_use = '1' and gi.in_mode = '0'
+        </where>
+    </select>
+</mapper>

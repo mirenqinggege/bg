@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fumei.bg.mapper.TraitMapper">
+    <resultMap id="BaseResultMap" type="com.fumei.bg.domain.web.Trait">
+        <id property="traitId" column="trait_id"/>
+        <result property="title" column="title"/>
+        <result property="titleSm" column="title_sm"/>
+        <result property="content" column="content"/>
+        <result property="fileId" column="file_id"/>
+        <result property="imgSrc" column="file_path"/>
+        <result property="use" column="is_use"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    <sql id="selectVo">
+        select t.trait_id,
+               title,
+               title_sm,
+               content,
+               t.file_id,
+               sf.path file_path,
+               is_use,
+               t.create_time,
+               t.update_time
+        from trait t
+                 left join sys_file sf on t.file_id = sf.file_id
+    </sql>
+    <select id="selectTraitList" resultMap="BaseResultMap" parameterType="com.fumei.bg.domain.web.Trait">
+        <include refid="selectVo"/>
+        <where>
+            <if test="title != null">
+                and t.title = #{title}
+            </if>
+            <if test="titleSm != null">
+                and t.title_sm = #{titleSm}
+            </if>
+            <if test="content != null">
+                and t.content = #{content}
+            </if>
+            <if test="fileId != null">
+                and t.fileId = #{fileId}
+            </if>
+            <if test="use != null">
+                and t.is_use = #{use}
+            </if>
+            <if test="createTime != null">
+                and t.create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and t.update_time = #{updateTime}
+            </if>
+        </where>
+        order by trait_id
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        where t.trait_id = #{traitId}
+    </select>
+    <insert id="insert" parameterType="com.fumei.bg.domain.web.Trait" useGeneratedKeys="true" keyProperty="traitId" keyColumn="trait_id">
+        insert into trait(title, title_sm, content, file_id, is_use, create_time)
+        values (#{title}, #{titleSm}, #{content}, #{fileId}, #{use}, now())
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.fumei.bg.domain.web.Trait">
+        update trait
+        set title       = #{title},
+            title_sm    = #{titleSm},
+            content     = #{content},
+            file_id     = #{fileId},
+            is_use      = #{use},
+            update_time = now()
+        where trait_id = #{traitId}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from trait
+        where trait_id = #{traitId}
+    </delete>
+</mapper>
